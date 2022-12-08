@@ -31,12 +31,38 @@ const Home: NextPage<{}> = () => {
           background-size: 1500px 750px;
         }
 
+        @keyframes FrontBlink {
+          0% {
+            opacity: 40%;
+          }
+          50% {
+            opacity: 100%;
+          }
+          100% {
+            opacity: 40%;
+          }
+        }
+
+        @keyframes BackBlink {
+          0% {
+            opacity: 100%;
+          }
+          50% {
+            opacity: 40%;
+          }
+          100% {
+            opacity: 100%;
+          }
+        }
+
         .bg-front {
           background-image: url("/background-star-back.png");
+          animation: FrontBlink 2s infinite;
         }
 
         .bg-back {
           background-image: url("/background-star-front.png");
+          animation: BackBlink 2s infinite;
         }
       `}</style>
     </>
