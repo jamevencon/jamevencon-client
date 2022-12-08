@@ -1,7 +1,15 @@
 import { NextPage } from "next";
 import Head from "next/head";
+import { useEffect, useState } from "react";
 
 const Home: NextPage<{}> = () => {
+  const [content, setContent] = useState<string[]>([]);
+  const [input, setInput] = useState("");
+
+  useEffect(() => {
+    setInput(input.trim());
+  }, [input]);
+
   return (
     <>
       <Head>
@@ -11,6 +19,28 @@ const Home: NextPage<{}> = () => {
       <div className="bg">
         <div className="bg-front"></div>
         <div className="bg-back"></div>
+      </div>
+
+      <div className="main">
+        <div className="up">
+          {content.map((v, i) => (
+            <div className="body" key={i}>
+              {v}
+            </div>
+          ))}
+        </div>
+        <textarea
+          placeholder="Start your journey"
+          value={input}
+          onChange={(e) => {
+            setInput(e.target.value);
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              setInput("");
+            }
+          }}
+        ></textarea>
       </div>
 
       <style jsx>{`
@@ -63,6 +93,37 @@ const Home: NextPage<{}> = () => {
         .bg-back {
           background-image: url("/background-star-front.png");
           animation: BackBlink 2s infinite;
+        }
+
+        .main {
+          display: flex;
+          flex-direction: column;
+          max-width: 1280px;
+          height: 100vh;
+          margin: 0 auto;
+        }
+
+        .main > div,
+        .main > textarea {
+          background-color: rgb(10, 10, 27, 0.6);
+        }
+
+        .up {
+          height: 80%;
+          margin-top: 0.5rem;
+          margin-bottom: 1rem;
+          border-radius: 15px;
+          overflow: auto;
+        }
+
+        textarea {
+          height: 15%;
+          color: white;
+          font-size: 1.5rem;
+          overflow-x: scroll;
+          word-break: break-all;
+          border: none;
+          outline: none;
         }
       `}</style>
     </>
