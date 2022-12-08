@@ -3,12 +3,29 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 
 const Home: NextPage<{}> = () => {
-  const [content, setContent] = useState<string[]>([]);
+  const [content, setContent] = useState<string[]>([
+    "Welcome to JamEvenCon.",
+    "Let's start your journey.",
+    "type 'help' to check details",
+  ]);
   const [input, setInput] = useState("");
 
   useEffect(() => {
     setInput(input.trim());
   }, [input]);
+
+  const append = (line: string) => {
+    setContent([...content, line]);
+  };
+
+  const clear = () => {
+    setContent(["Console cleared"]);
+  };
+
+  const execute = (cmd: string) => {
+    if (cmd === "cls" || cmd === "clear") clear();
+    else append(`Command '${cmd.split(" ")[0]}' is not found`);
+  };
 
   return (
     <>
@@ -37,6 +54,7 @@ const Home: NextPage<{}> = () => {
           }}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
+              execute(input);
               setInput("");
             }
           }}
@@ -106,14 +124,21 @@ const Home: NextPage<{}> = () => {
         .main > div,
         .main > textarea {
           background-color: rgb(10, 10, 27, 0.6);
+          font-family: D2Coding, Consolas;
         }
 
         .up {
           height: 80%;
           margin-top: 0.5rem;
           margin-bottom: 1rem;
-          border-radius: 15px;
           overflow: auto;
+          color: white;
+          font-size: 1.2rem;
+          overflow-y: auto;
+        }
+
+        .body {
+          margin-bottom: 5px;
         }
 
         textarea {
