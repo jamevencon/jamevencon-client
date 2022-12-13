@@ -1,30 +1,26 @@
 import { NextPage } from "next";
 import Head from "next/head";
 import { useEffect, useState } from "react";
+import { Message, runCmd } from "../game/command";
 
 const Home: NextPage<{}> = () => {
-  const [content, setContent] = useState<string[]>([
-    "Welcome to JamEvenCon.",
-    "Let's start your journey.",
-    "type 'help' to check details",
+  const [content, setContent] = useState<Message[]>([
+    { msg: "Welcome to JamEvenCon.", type: "info" },
+    { msg: "Let's start your journey.", type: "info" },
+    { msg: "type 'help' to check details", type: "info" },
   ]);
   const [input, setInput] = useState("");
 
-  useEffect(() => {
-    setInput(input.trim());
-  }, [input]);
-
-  const append = (line: string) => {
-    setContent([...content, line]);
+  const append = (msg: Message[]) => {
+    setContent([...content, ...msg]);
   };
 
   const clear = () => {
-    setContent(["Console cleared"]);
+    setContent([{ msg: "Console cleared", type: "italic" }]);
   };
 
   const execute = (cmd: string) => {
-    if (cmd === "cls" || cmd === "clear") clear();
-    else append(`Command '${cmd.split(" ")[0]}' is not found`);
+    runCmd(cmd, append, clear);
   };
 
   return (
@@ -41,8 +37,8 @@ const Home: NextPage<{}> = () => {
       <div className="main">
         <div className="up">
           {content.map((v, i) => (
-            <div className="body" key={i}>
-              {v}
+            <div className={`body ${v.type}`} key={i}>
+              {v.msg}
             </div>
           ))}
         </div>
@@ -54,7 +50,7 @@ const Home: NextPage<{}> = () => {
           }}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
-              execute(input);
+              execute(input.trim());
               setInput("");
             }
           }}
@@ -149,6 +145,27 @@ const Home: NextPage<{}> = () => {
           word-break: break-all;
           border: none;
           outline: none;
+        }
+
+        .error {
+          background-color: rgba(255, 0, 0, 0.3);
+        }
+
+        .warn {
+          background-color: rgba(255, 166, 0, 0.3);
+        }
+
+        .success {
+          background-color: rgba(172, 255, 47, 0.3);
+        }
+
+        .debug {
+          background-color: rgba(128, 128, 128, 0.3);
+        }
+
+        .italic {
+          font-style: italic;
+          color: grey;
         }
       `}</style>
     </>
