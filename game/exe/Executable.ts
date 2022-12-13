@@ -1,9 +1,16 @@
+import { ConsoleSender } from "../command";
+
 export type Category = "system" | "combat" | "resource" | "social";
+export interface Option {
+  options: string[];
+  description: string;
+  needValue: boolean;
+}
 
 export abstract class Executable {
   public name: string;
   public aliases: string[];
-  public params: string[];
+  public params: Option[];
   public category: Category;
   public desc: string;
   public usage: string;
@@ -11,7 +18,7 @@ export abstract class Executable {
   constructor(
     name: string,
     aliases: string[],
-    params: string[],
+    params: Option[],
     category: Category,
     desc: string,
     usage: string
@@ -24,5 +31,5 @@ export abstract class Executable {
     this.usage = usage;
   }
 
-  public abstract run(): void;
+  public abstract run(append: ConsoleSender, args: string[]): void;
 }

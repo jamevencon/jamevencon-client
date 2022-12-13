@@ -23,6 +23,11 @@ const Home: NextPage<{}> = () => {
     runCmd(cmd, append, clear);
   };
 
+  useEffect(() => {
+    // Remove remaining Enter
+    if (input === "\n") setInput("");
+  }, [input]);
+
   return (
     <>
       <Head>
@@ -38,7 +43,9 @@ const Home: NextPage<{}> = () => {
         <div className="up">
           {content.map((v, i) => (
             <div className={`body ${v.type}`} key={i}>
-              {v.msg}
+              {v.msg.split("\n").map((str, k) => (
+                <p key={`${i}-${k}`}>{str}</p>
+              ))}
             </div>
           ))}
         </div>
@@ -49,6 +56,10 @@ const Home: NextPage<{}> = () => {
             setInput(e.target.value);
           }}
           onKeyDown={(e) => {
+            // This will allow for non-english word
+            // (especially composition letters) to be typed properly
+            if (e.nativeEvent.isComposing) return;
+
             if (e.key === "Enter") {
               execute(input.trim());
               setInput("");
@@ -166,6 +177,11 @@ const Home: NextPage<{}> = () => {
         .italic {
           font-style: italic;
           color: grey;
+        }
+
+        p {
+          display: block;
+          min-height: 1rem;
         }
       `}</style>
     </>
