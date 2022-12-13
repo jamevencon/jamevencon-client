@@ -37,6 +37,7 @@ export const runCmd = (
     const search = searchCommand(command);
 
     if (search.length > 1) {
+      // Found multiple aliase match
       sender([
         {
           msg: `검색한 명령 ${command}에 대해 ${

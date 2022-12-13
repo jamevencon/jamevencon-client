@@ -24,7 +24,8 @@ export class Help extends Executable {
         {
           msg: `\n\n${this.name}\n
           ${this.desc}\n
-          사용법 : ${this.usage}`,
+          사용법 : ${this.usage}
+          카테고리에는 system, combat, resource, social 이 있습니다.`,
           type: "info",
         },
       ]);

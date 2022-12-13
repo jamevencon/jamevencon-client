@@ -12,6 +12,38 @@ const Home: NextPage<{}> = () => {
     { msg: "type 'help' to check details.\n", type: "info" },
   ]);
   const [input, setInput] = useState("");
+  const [cmdQueue, setQueue] = useState<string[]>([]);
+  const [queueIndex, setIndex] = useState(0);
+
+  const assignQueue = (value: string) => {
+    if (cmdQueue.length === 100)
+      setQueue([...cmdQueue.slice(0, cmdQueue.length - 1)]);
+
+    if (cmdQueue.length > 0 && cmdQueue[cmdQueue.length - 1] === value) return;
+
+    setQueue([...cmdQueue, value]);
+    setIndex(cmdQueue.length + 1);
+  };
+
+  const useFormer = () => {
+    if (cmdQueue.length === 0) return;
+
+    if (queueIndex !== 0) {
+      setInput(cmdQueue[queueIndex - 1]);
+      setIndex(queueIndex - 1);
+    }
+  };
+  const useLatter = () => {
+    if (cmdQueue.length === 0) return;
+
+    if (queueIndex < cmdQueue.length - 1) {
+      setInput(cmdQueue[queueIndex + 1]);
+      setIndex(queueIndex + 1);
+    } else if (queueIndex === cmdQueue.length - 1) {
+      setInput("");
+      setIndex(queueIndex + 1);
+    }
+  };
 
   const append = (msg: Message[]) => {
     setContent([...content, ...msg]);
@@ -22,6 +54,7 @@ const Home: NextPage<{}> = () => {
   };
 
   const execute = (cmd: string) => {
+    assignQueue(cmd);
     runCmd(cmd, append, clear);
   };
 
@@ -43,7 +76,13 @@ const Home: NextPage<{}> = () => {
 
       <div className="main">
         <Output content={content} />
-        <Input execute={execute} input={input} setInput={setInput} />
+        <Input
+          execute={execute}
+          input={input}
+          setInput={setInput}
+          useFormer={useFormer}
+          useLatter={useLatter}
+        />
       </div>
 
       <style jsx>{`

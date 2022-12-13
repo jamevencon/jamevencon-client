@@ -4,9 +4,17 @@ interface Props {
   input: string;
   setInput(str: string): any;
   execute(str: string): any;
+  useFormer(): any;
+  useLatter(): any;
 }
 
-const Input: NextPage<Props> = ({ execute, input, setInput }) => (
+const Input: NextPage<Props> = ({
+  execute,
+  input,
+  setInput,
+  useFormer,
+  useLatter,
+}) => (
   <>
     <textarea
       placeholder="Start your journey"
@@ -22,7 +30,8 @@ const Input: NextPage<Props> = ({ execute, input, setInput }) => (
         if (e.key === "Enter") {
           execute(input.trim());
           setInput("");
-        }
+        } else if (e.key === "ArrowUp") useFormer();
+        else if (e.key === "ArrowDown") useLatter();
       }}
     ></textarea>
 
