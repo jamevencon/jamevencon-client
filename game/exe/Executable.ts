@@ -1,6 +1,8 @@
 import { ConsoleSender } from "../command";
 
 export type Category = "system" | "combat" | "resource" | "social";
+export const categoryStr = ["system", "combat", "resource", "social"];
+export const isCategory = (str: string) => categoryStr.includes(str);
 export interface Option {
   options: string[];
   description: string;

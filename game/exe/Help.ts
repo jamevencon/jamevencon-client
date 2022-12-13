@@ -1,5 +1,5 @@
 import { ConsoleSender } from "./../command";
-import { Executable } from "./Executable";
+import { categoryStr, Executable } from "./Executable";
 
 export class Help extends Executable {
   constructor() {
@@ -25,7 +25,7 @@ export class Help extends Executable {
           msg: `\n\n${this.name}\n
           ${this.desc}\n
           사용법 : ${this.usage}
-          카테고리에는 system, combat, resource, social 이 있습니다.`,
+          카테고리에는 ${categoryStr.join(", ")} 이 있습니다.`,
           type: "info",
         },
       ]);
