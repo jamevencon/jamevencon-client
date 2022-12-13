@@ -9,7 +9,7 @@ const Home: NextPage<{}> = () => {
   const [content, setContent] = useState<Message[]>([
     { msg: "Welcome to JamEvenCon.", type: "info" },
     { msg: "Let's start your journey.", type: "info" },
-    { msg: "type 'help' to check details", type: "info" },
+    { msg: "type 'help' to check details.\n", type: "info" },
   ]);
   const [input, setInput] = useState("");
 
