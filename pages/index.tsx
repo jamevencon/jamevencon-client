@@ -19,7 +19,11 @@ const Home: NextPage<{}> = () => {
     if (cmdQueue.length === 100)
       setQueue([...cmdQueue.slice(0, cmdQueue.length - 1)]);
 
-    if (cmdQueue.length > 0 && cmdQueue[cmdQueue.length - 1] === value) return;
+    if (cmdQueue.length > 0 && cmdQueue[cmdQueue.length - 1] === value) {
+      // When invoke lastly used command.
+      setIndex(cmdQueue.length);
+      return;
+    }
 
     setQueue([...cmdQueue, value]);
     setIndex(cmdQueue.length + 1);

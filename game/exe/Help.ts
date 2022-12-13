@@ -16,7 +16,7 @@ export class Help extends Executable {
 
   public run(sender: ConsoleSender, args: string[]) {
     // TODO help ping, help combat 등 구현하기
-    // TODO 방향키로 history 불러오기
+    // TODO 자도 스크롤
     // TODO Option 으로 parameter 구현하기
 
     if (args.length === 0) {
