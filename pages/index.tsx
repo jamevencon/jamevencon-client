@@ -1,6 +1,8 @@
 import { NextPage } from "next";
 import Head from "next/head";
 import { useEffect, useState } from "react";
+import Input from "../components/Input";
+import Output from "../components/Output";
 import { Message, runCmd } from "../game/command";
 
 const Home: NextPage<{}> = () => {
@@ -40,32 +42,8 @@ const Home: NextPage<{}> = () => {
       </div>
 
       <div className="main">
-        <div className="up">
-          {content.map((v, i) => (
-            <div className={`body ${v.type}`} key={i}>
-              {v.msg.split("\n").map((str, k) => (
-                <p key={`${i}-${k}`}>{str}</p>
-              ))}
-            </div>
-          ))}
-        </div>
-        <textarea
-          placeholder="Start your journey"
-          value={input}
-          onChange={(e) => {
-            setInput(e.target.value);
-          }}
-          onKeyDown={(e) => {
-            // This will allow for non-english word
-            // (especially composition letters) to be typed properly
-            if (e.nativeEvent.isComposing) return;
-
-            if (e.key === "Enter") {
-              execute(input.trim());
-              setInput("");
-            }
-          }}
-        ></textarea>
+        <Output content={content} />
+        <Input execute={execute} input={input} setInput={setInput} />
       </div>
 
       <style jsx>{`
@@ -126,62 +104,6 @@ const Home: NextPage<{}> = () => {
           max-width: 1280px;
           height: 100vh;
           margin: 0 auto;
-        }
-
-        .main > div,
-        .main > textarea {
-          background-color: rgb(10, 10, 27, 0.6);
-          font-family: D2Coding, Consolas;
-        }
-
-        .up {
-          height: 80%;
-          margin-top: 0.5rem;
-          margin-bottom: 1rem;
-          overflow: auto;
-          color: white;
-          font-size: 1.2rem;
-          overflow-y: auto;
-        }
-
-        .body {
-          margin-bottom: 5px;
-        }
-
-        textarea {
-          height: 15%;
-          color: white;
-          font-size: 1.5rem;
-          overflow-x: scroll;
-          word-break: break-all;
-          border: none;
-          outline: none;
-        }
-
-        .error {
-          background-color: rgba(255, 0, 0, 0.3);
-        }
-
-        .warn {
-          background-color: rgba(255, 166, 0, 0.3);
-        }
-
-        .success {
-          background-color: rgba(172, 255, 47, 0.3);
-        }
-
-        .debug {
-          background-color: rgba(128, 128, 128, 0.3);
-        }
-
-        .italic {
-          font-style: italic;
-          color: grey;
-        }
-
-        p {
-          display: block;
-          min-height: 1rem;
         }
       `}</style>
     </>
