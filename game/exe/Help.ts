@@ -26,7 +26,11 @@ export class Help extends Executable {
     );
   }
 
-  public run(sender: ConsoleSender, args: string[]) {
+  public run(
+    sender: ConsoleSender,
+    option: Map<string, string>,
+    args: string[]
+  ) {
     if (args.length === 0) {
       sender([
         {

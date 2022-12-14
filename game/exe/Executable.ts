@@ -33,5 +33,9 @@ export abstract class Executable {
     this.usage = usage;
   }
 
-  public abstract run(append: ConsoleSender, args: string[]): void;
+  public abstract run(
+    append: ConsoleSender,
+    option: Map<string, string>,
+    args: string[]
+  ): void;
 }
