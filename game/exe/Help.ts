@@ -1,5 +1,5 @@
 import { commands, ConsoleSender, Message, searchCommand } from "./../command";
-import { categoryStr, Executable } from "./Executable";
+import { categoryStr, Executable, isCategory } from "./Executable";
 
 export class Help extends Executable {
   constructor() {
@@ -38,41 +38,54 @@ export class Help extends Executable {
         },
       ]);
     } else {
-      const command = searchCommand(args[0]);
+      if (isCategory(args[0])) {
+        const filter = commands.filter((v) => v.category === args[0]);
 
-      if (command.length < 1) {
+        sender(
+          filter.map(
+            (v): Message => ({
+              msg: `${v.name} - ${v.desc}`,
+              type: "info",
+            })
+          )
+        );
+      } else {
+        const command = searchCommand(args[0]);
+
+        if (command.length < 1) {
+          sender([
+            {
+              msg: `명령 또는 카테고리 ${args[0]}을(를) 찾을 수 없습니다.`,
+              type: "error",
+            },
+          ]);
+          return;
+        } else if (command.length > 1) {
+          sender([
+            {
+              msg: `명령 ${args[0]}에 대한 검색 결과가 ${command.length}개 입니다.`,
+              type: "warn",
+            },
+          ]);
+        }
+
+        // Print help
+        const cmd = commands[command[0]];
         sender([
-          {
-            msg: `명령 ${args[0]}을(를) 찾을 수 없습니다.`,
-            type: "error",
-          },
-        ]);
-        return;
-      } else if (command.length > 1) {
-        sender([
-          {
-            msg: `명령 ${args[0]}에 대한 검색 결과가 ${command.length}개 입니다.`,
-            type: "warn",
-          },
+          { msg: cmd.name, type: "info" },
+          { msg: `${cmd.aliases.join(", ")}`, type: "italic" },
+          { msg: `\n${cmd.desc}\n`, type: "info" },
+          ...cmd.params.map(
+            (p): Message => ({
+              msg: `${p.options.map((v) => "-" + v).join(" ")}${
+                p.needValue ? " <value>" : ""
+              }\t${p.description}`,
+              type: "info",
+            })
+          ),
+          { msg: `\n사용법 : ${cmd.usage}`, type: "info" },
         ]);
       }
-
-      // Print help
-      const cmd = commands[command[0]];
-      sender([
-        { msg: cmd.name, type: "info" },
-        { msg: `${cmd.aliases.join(", ")}`, type: "italic" },
-        { msg: `\n${cmd.desc}\n`, type: "info" },
-        ...cmd.params.map(
-          (p): Message => ({
-            msg: `${p.options.map((v) => "-" + v).join(" ")}${
-              p.needValue ? " <value>" : ""
-            }\t${p.description}`,
-            type: "info",
-          })
-        ),
-        { msg: `\n사용법 : ${cmd.usage}`, type: "info" },
-      ]);
     }
   }
 }
