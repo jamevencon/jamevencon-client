@@ -19,6 +19,7 @@ const Home: NextPage<{}> = () => {
 
   const assignQueue = (value: string) => {
     if (cmdQueue.length === 100)
+      // Remove 101st element
       setQueue([...cmdQueue.slice(0, cmdQueue.length - 1)]);
 
     if (cmdQueue.length > 0 && cmdQueue[cmdQueue.length - 1] === value) {
@@ -53,7 +54,6 @@ const Home: NextPage<{}> = () => {
 
   const append = (msg: Message[]) => {
     setContent([...content, ...msg]);
-    console.dir(content);
   };
 
   const clear = () => {
@@ -93,6 +93,9 @@ const Home: NextPage<{}> = () => {
           setInput={setInput}
           useFormer={useFormer}
           useLatter={useLatter}
+          newLine={() => {
+            append([{ msg: "", type: "info" }]);
+          }}
         />
       </div>
 

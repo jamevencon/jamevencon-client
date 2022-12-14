@@ -6,6 +6,7 @@ interface Props {
   execute(str: string): any;
   useFormer(): any;
   useLatter(): any;
+  newLine(): any;
 }
 
 const Input: NextPage<Props> = ({
@@ -14,6 +15,7 @@ const Input: NextPage<Props> = ({
   setInput,
   useFormer,
   useLatter,
+  newLine,
 }) => (
   <>
     <textarea
@@ -28,6 +30,11 @@ const Input: NextPage<Props> = ({
         if (e.nativeEvent.isComposing) return;
 
         if (e.key === "Enter") {
+          if (input === "") {
+            newLine();
+            return;
+          }
+
           execute(input.trim());
           setInput("");
         } else if (e.key === "ArrowUp") useFormer();

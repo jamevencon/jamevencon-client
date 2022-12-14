@@ -19,12 +19,20 @@ export class Ping extends Executable {
         msg: "핑 계산중...",
         type: "italic",
       },
+      {
+        msg: "그만좀 지워라",
+        type: "italic",
+      },
+    ]);
+    append([
+      {
+        msg: "핑 계산중...",
+        type: "italic",
+      },
     ]);
 
     // Why Disappear!!!!!
-    setTimeout(() => {
-      append([{ msg: "Pong~", type: "info" }]);
-      append([{ msg: "Pong~", type: "info" }]);
-    }, 1000);
+    append([{ msg: "Pong~", type: "info" }]);
+    append([{ msg: "Pong~", type: "info" }]);
   }
 }
