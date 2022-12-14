@@ -13,7 +13,11 @@ export class Ping extends Executable {
     );
   }
 
-  public run(append: ConsoleSender, args: string[]): void {
+  public run(
+    append: ConsoleSender,
+    option: Map<string, string>,
+    args: string[]
+  ): void {
     append([
       {
         msg: "핑 계산중...",

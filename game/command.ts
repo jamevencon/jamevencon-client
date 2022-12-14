@@ -60,6 +60,39 @@ export const runCmd = (
       return;
     }
 
-    commands[search[0]].run(sender, cmd.split(" ").slice(1));
+    const args = [...cmd.split(" ").slice(1)];
+    const option = new Map<string, string>();
+
+    let fail = false;
+
+    if (args.length !== 0) {
+      commands[search[0]].params.forEach((p) => {
+        if (fail) return;
+
+        if (p.options.map((v) => "-" + v).includes(args[0])) {
+          if (p.needValue) {
+            if (args.length < 2) {
+              // Only key
+              fail = true;
+              sender([
+                {
+                  msg: `옵션 ${args[0]}에 값이 제공되지 않았습니다.`,
+                  type: "error",
+                },
+              ]);
+            } else {
+              option.set(p.options[0], args[1]);
+              args.shift();
+              args.shift();
+            }
+          } else {
+            option.set(p.options[0], "");
+            args.shift();
+          }
+        }
+      });
+    }
+
+    if (!fail) commands[search[0]].run(sender, option, args);
   }
 };

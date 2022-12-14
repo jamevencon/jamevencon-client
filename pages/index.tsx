@@ -85,6 +85,12 @@ const Home: NextPage<{}> = () => {
 
   const execute = (cmd: string) => {
     assignQueue(cmd);
+    append([
+      {
+        msg: `\n> ${cmd}`,
+        type: "debug",
+      },
+    ]);
     runCmd(cmd, append, clear);
   };
 
