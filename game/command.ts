@@ -1,3 +1,4 @@
+import { Ping } from "./exe/Ping";
 import { Executable } from "./exe/Executable";
 import { Help } from "./exe/Help";
 
@@ -9,7 +10,7 @@ export interface Message {
   type: "info" | "warn" | "error" | "success" | "debug" | "italic";
 }
 
-export const commands: Executable[] = [new Help()];
+export const commands: Executable[] = [new Help(), new Ping()];
 
 export const searchCommand = (search: string) => {
   const result: number[] = [];

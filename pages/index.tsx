@@ -53,6 +53,7 @@ const Home: NextPage<{}> = () => {
 
   const append = (msg: Message[]) => {
     setContent([...content, ...msg]);
+    console.dir(content);
   };
 
   const clear = () => {
@@ -85,7 +86,7 @@ const Home: NextPage<{}> = () => {
       </div>
 
       <div className="main">
-        <Output content={content} rref={contentRef} />
+        <Output content={content} scrollRef={contentRef} />
         <Input
           execute={execute}
           input={input}

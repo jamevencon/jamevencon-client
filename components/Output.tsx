@@ -4,10 +4,10 @@ import { Message } from "../game/command";
 
 interface Props {
   content: Message[];
-  rref: MutableRefObject<HTMLDivElement | null>;
+  scrollRef: MutableRefObject<HTMLDivElement | null>;
 }
 
-const Output: NextPage<Props> = ({ content, rref }) => (
+const Output: NextPage<Props> = ({ content, scrollRef: rref }) => (
   <>
     <div className="up">
       {content.map((v, i) => (
