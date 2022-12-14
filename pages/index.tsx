@@ -1,31 +1,101 @@
 import { NextPage } from "next";
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import Input from "../components/Input";
+import Output from "../components/Output";
+import { Message, runCmd } from "../game/command";
+
+let originalContent: Message[] = [
+  { msg: "Welcome to JamEvenCon.", type: "info" },
+  { msg: "Let's start your journey.", type: "info" },
+  { msg: "type 'help' to check details.\n", type: "info" },
+];
+
+const appendOriginal = (msg: Message[]) => {
+  msg.forEach((v) => originalContent.push(v));
+};
+
+const clearOriginal = () => {
+  originalContent = [
+    {
+      msg: "Console cleared.",
+      type: "italic",
+    },
+  ];
+};
 
 const Home: NextPage<{}> = () => {
-  const [content, setContent] = useState<string[]>([
-    "Welcome to JamEvenCon.",
-    "Let's start your journey.",
-    "type 'help' to check details",
-  ]);
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  const [content, setContent] = useState<Message[]>(originalContent);
   const [input, setInput] = useState("");
+  const [cmdQueue, setQueue] = useState<string[]>([]);
+  const [queueIndex, setIndex] = useState(0);
 
-  useEffect(() => {
-    setInput(input.trim());
-  }, [input]);
+  const assignQueue = (value: string) => {
+    if (cmdQueue.length === 100)
+      // Remove 101st element
+      setQueue([...cmdQueue.slice(0, cmdQueue.length - 1)]);
 
-  const append = (line: string) => {
-    setContent([...content, line]);
+    if (cmdQueue.length > 0 && cmdQueue[cmdQueue.length - 1] === value) {
+      // When invoke lastly used command.
+      setIndex(cmdQueue.length);
+      return;
+    }
+
+    setQueue([...cmdQueue, value]);
+    setIndex(cmdQueue.length + 1);
+  };
+
+  const useFormer = () => {
+    if (cmdQueue.length === 0) return;
+
+    if (queueIndex !== 0) {
+      setInput(cmdQueue[queueIndex - 1]);
+      setIndex(queueIndex - 1);
+    }
+  };
+  const useLatter = () => {
+    if (cmdQueue.length === 0) return;
+
+    if (queueIndex < cmdQueue.length - 1) {
+      setInput(cmdQueue[queueIndex + 1]);
+      setIndex(queueIndex + 1);
+    } else if (queueIndex === cmdQueue.length - 1) {
+      setInput("");
+      setIndex(queueIndex + 1);
+    }
+  };
+
+  const updateContent = () => {
+    setContent([...originalContent]);
+  };
+
+  const append = (msg: Message[]) => {
+    appendOriginal(msg);
+    // setContent([...content, ...msg]);
+    updateContent();
   };
 
   const clear = () => {
-    setContent(["Console cleared"]);
+    clearOriginal();
+    // setContent([{ msg: "Console cleared", type: "italic" }]);
+    updateContent();
   };
 
   const execute = (cmd: string) => {
-    if (cmd === "cls" || cmd === "clear") clear();
-    else append(`Command '${cmd.split(" ")[0]}' is not found`);
+    assignQueue(cmd);
+    runCmd(cmd, append, clear);
   };
+
+  useEffect(() => {
+    // Remove remaining Enter
+    if (input === "\n") setInput("");
+  }, [input]);
+
+  useEffect(() => {
+    contentRef.current?.scrollIntoView();
+  }, [content]);
 
   return (
     <>
@@ -39,26 +109,17 @@ const Home: NextPage<{}> = () => {
       </div>
 
       <div className="main">
-        <div className="up">
-          {content.map((v, i) => (
-            <div className="body" key={i}>
-              {v}
-            </div>
-          ))}
-        </div>
-        <textarea
-          placeholder="Start your journey"
-          value={input}
-          onChange={(e) => {
-            setInput(e.target.value);
+        <Output content={content} scrollRef={contentRef} />
+        <Input
+          execute={execute}
+          input={input}
+          setInput={setInput}
+          useFormer={useFormer}
+          useLatter={useLatter}
+          newLine={() => {
+            append([{ msg: "", type: "info" }]);
           }}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              execute(input);
-              setInput("");
-            }
-          }}
-        ></textarea>
+        />
       </div>
 
       <style jsx>{`
@@ -119,36 +180,6 @@ const Home: NextPage<{}> = () => {
           max-width: 1280px;
           height: 100vh;
           margin: 0 auto;
-        }
-
-        .main > div,
-        .main > textarea {
-          background-color: rgb(10, 10, 27, 0.6);
-          font-family: D2Coding, Consolas;
-        }
-
-        .up {
-          height: 80%;
-          margin-top: 0.5rem;
-          margin-bottom: 1rem;
-          overflow: auto;
-          color: white;
-          font-size: 1.2rem;
-          overflow-y: auto;
-        }
-
-        .body {
-          margin-bottom: 5px;
-        }
-
-        textarea {
-          height: 15%;
-          color: white;
-          font-size: 1.5rem;
-          overflow-x: scroll;
-          word-break: break-all;
-          border: none;
-          outline: none;
         }
       `}</style>
     </>
