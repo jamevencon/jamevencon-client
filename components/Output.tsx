@@ -1,11 +1,13 @@
 import { NextPage } from "next";
+import { MutableRefObject } from "react";
 import { Message } from "../game/command";
 
 interface Props {
   content: Message[];
+  rref: MutableRefObject<HTMLDivElement | null>;
 }
 
-const Output: NextPage<Props> = ({ content }) => (
+const Output: NextPage<Props> = ({ content, rref }) => (
   <>
     <div className="up">
       {content.map((v, i) => (
@@ -15,6 +17,10 @@ const Output: NextPage<Props> = ({ content }) => (
           ))}
         </div>
       ))}
+      <div
+        ref={rref as MutableRefObject<HTMLDivElement>}
+        className="scroller"
+      ></div>
     </div>
 
     <style jsx>{`
@@ -27,7 +33,7 @@ const Output: NextPage<Props> = ({ content }) => (
         overflow: auto;
         color: white;
         font-size: 1.2rem;
-        overflow-y: auto;
+        overflow-y: scroll;
       }
 
       .body {

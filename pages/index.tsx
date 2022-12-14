@@ -1,11 +1,13 @@
 import { NextPage } from "next";
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Input from "../components/Input";
 import Output from "../components/Output";
 import { Message, runCmd } from "../game/command";
 
 const Home: NextPage<{}> = () => {
+  const contentRef = useRef<HTMLDivElement>(null);
+
   const [content, setContent] = useState<Message[]>([
     { msg: "Welcome to JamEvenCon.", type: "info" },
     { msg: "Let's start your journey.", type: "info" },
@@ -67,6 +69,10 @@ const Home: NextPage<{}> = () => {
     if (input === "\n") setInput("");
   }, [input]);
 
+  useEffect(() => {
+    contentRef.current?.scrollIntoView();
+  }, [content]);
+
   return (
     <>
       <Head>
@@ -79,7 +85,7 @@ const Home: NextPage<{}> = () => {
       </div>
 
       <div className="main">
-        <Output content={content} />
+        <Output content={content} rref={contentRef} />
         <Input
           execute={execute}
           input={input}
