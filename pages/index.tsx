@@ -5,14 +5,29 @@ import Input from "../components/Input";
 import Output from "../components/Output";
 import { Message, runCmd } from "../game/command";
 
+let originalContent: Message[] = [
+  { msg: "Welcome to JamEvenCon.", type: "info" },
+  { msg: "Let's start your journey.", type: "info" },
+  { msg: "type 'help' to check details.\n", type: "info" },
+];
+
+const appendOriginal = (msg: Message[]) => {
+  msg.forEach((v) => originalContent.push(v));
+};
+
+const clearOriginal = () => {
+  originalContent = [
+    {
+      msg: "Console cleared.",
+      type: "italic",
+    },
+  ];
+};
+
 const Home: NextPage<{}> = () => {
   const contentRef = useRef<HTMLDivElement>(null);
 
-  const [content, setContent] = useState<Message[]>([
-    { msg: "Welcome to JamEvenCon.", type: "info" },
-    { msg: "Let's start your journey.", type: "info" },
-    { msg: "type 'help' to check details.\n", type: "info" },
-  ]);
+  const [content, setContent] = useState<Message[]>(originalContent);
   const [input, setInput] = useState("");
   const [cmdQueue, setQueue] = useState<string[]>([]);
   const [queueIndex, setIndex] = useState(0);
@@ -52,12 +67,20 @@ const Home: NextPage<{}> = () => {
     }
   };
 
+  const updateContent = () => {
+    setContent([...originalContent]);
+  };
+
   const append = (msg: Message[]) => {
-    setContent([...content, ...msg]);
+    appendOriginal(msg);
+    // setContent([...content, ...msg]);
+    updateContent();
   };
 
   const clear = () => {
-    setContent([{ msg: "Console cleared", type: "italic" }]);
+    clearOriginal();
+    // setContent([{ msg: "Console cleared", type: "italic" }]);
+    updateContent();
   };
 
   const execute = (cmd: string) => {
