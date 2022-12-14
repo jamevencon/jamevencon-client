@@ -10,7 +10,7 @@ export class Help extends Executable {
         {
           options: ["q", "quiet"],
           description: "카테고리의 명령의 이름만을 출력합니다.",
-          needValue: false,
+          needValue: true,
         },
         {
           options: ["c", "check"],
@@ -32,6 +32,46 @@ export class Help extends Executable {
     args: string[]
   ) {
     if (args.length === 0) {
+      if (option.has("q")) {
+        const cat = option.get("q") as string;
+
+        if (!isCategory(cat)) {
+          sender([
+            {
+              msg: `${cat}은(는) 유효하지 않은 카테고리입니다.`,
+              type: "error",
+            },
+          ]);
+          return;
+        }
+
+        const cmd = commands
+          .filter((v) => v.category === cat)
+          .map((v) => v.name)
+          .join("\n");
+        sender([{ msg: cmd, type: "info" }]);
+        return;
+      } else if (option.has("c")) {
+        const token = option.get("c") as string;
+        if (isCategory(token))
+          sender([
+            { msg: `${token}은 유효한 카테고리입니다.`, type: "success" },
+          ]);
+        else if (
+          commands.filter((v) => v.name === token || v.aliases.includes(token))
+            .length > 0
+        )
+          sender([
+            {
+              msg: `${token}은 유효한 명령입니다. 자세한 정보는 'help ${token}'을 참고하십시오.`,
+              type: "success",
+            },
+          ]);
+        else sender([{ msg: `${token}검색에 실패했습니다.`, type: "error" }]);
+
+        return;
+      }
+
       sender([
         {
           msg: `${this.name}\n
