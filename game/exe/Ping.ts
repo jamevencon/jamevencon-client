@@ -1,5 +1,4 @@
 import axios, { AxiosError } from "axios";
-import { error } from "console";
 import { ConsoleSender } from "../command";
 import { getServer } from "../config";
 import { Executable } from "./Executable";
