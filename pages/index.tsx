@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Input from "../components/Input";
 import Output from "../components/Output";
 import { Message, runCmd } from "../game/command";
-import { io } from "socket.io-client";
+// import { io } from "socket.io-client";
 
 let originalContent: Message[] = [
   { msg: "Welcome to JamEvenCon.", type: "info" },
