@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Input from "../components/Input";
 import Output from "../components/Output";
 import { Message, runCmd } from "../game/command";
+// import { io } from "socket.io-client";
 
 let originalContent: Message[] = [
   { msg: "Welcome to JamEvenCon.", type: "info" },
@@ -102,6 +103,16 @@ const Home: NextPage<{}> = () => {
   useEffect(() => {
     contentRef.current?.scrollIntoView();
   }, [content]);
+
+  // useEffect(() => {
+  //   const socket = io("ws://localhost:5656");
+
+  //   socket.on("message", ({ name, message }) => {
+  //     console.log(name, message);
+  //   });
+
+  //   socket.emit("message", { name: "YEAHx4", message: "Hello" });
+  // }, []);
 
   return (
     <>

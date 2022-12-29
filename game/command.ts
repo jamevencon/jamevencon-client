@@ -1,6 +1,8 @@
 import { Ping } from "./exe/Ping";
 import { Executable } from "./exe/Executable";
 import { Help } from "./exe/Help";
+import { Connect } from "./exe/Connect";
+import { Users } from "./exe/users";
 
 export type ConsoleSender = (msg: Message[]) => void;
 
@@ -10,7 +12,12 @@ export interface Message {
   type: "info" | "warn" | "error" | "success" | "debug" | "italic";
 }
 
-export const commands: Executable[] = [new Help(), new Ping()];
+export const commands: Executable[] = [
+  new Help(),
+  new Ping(),
+  new Connect(),
+  new Users(),
+];
 
 export const searchCommand = (search: string) => {
   const result: number[] = [];
