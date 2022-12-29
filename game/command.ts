@@ -2,7 +2,8 @@ import { Ping } from "./exe/Ping";
 import { Executable } from "./exe/Executable";
 import { Help } from "./exe/Help";
 import { Connect } from "./exe/Connect";
-import { Users } from "./exe/users";
+import { Register } from "./exe/Register";
+import { Users } from "./exe/Users";
 
 export type ConsoleSender = (msg: Message[]) => void;
 
@@ -17,6 +18,7 @@ export const commands: Executable[] = [
   new Ping(),
   new Connect(),
   new Users(),
+  new Register(),
 ];
 
 export const searchCommand = (search: string) => {
