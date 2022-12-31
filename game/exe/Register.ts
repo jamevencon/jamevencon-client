@@ -2,6 +2,7 @@ import { ConsoleSender } from "../command";
 import { Executable } from "./Executable";
 import { getServer } from "../config";
 import axios from "axios";
+import md5 from "md5";
 
 interface RegisterRes {
   msg: "TAKEN_USERNAME" | "SUCCESS";
@@ -38,7 +39,7 @@ export class Register extends Executable {
       data: { msg },
     } = await axios.post<RegisterRes>(getServer() + "/auth/register", {
       username: args[0],
-      password: args[1],
+      password: md5(args[0] + args[1]),
     });
 
     if (msg === "TAKEN_USERNAME") {
