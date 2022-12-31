@@ -32,3 +32,26 @@ export const initSocket = (
     ]);
   });
 };
+
+export const disconnect = (append: ConsoleSender) => {
+  if (!mySocket || !name) {
+    append([
+      {
+        msg: "서버와 연결되어있지 않습니다.",
+        type: "error",
+      },
+    ]);
+    return;
+  }
+
+  mySocket.disconnect();
+  mySocket;
+  name = "";
+
+  append([
+    {
+      msg: "서버와의 연결이 끊어졌습니다.",
+      type: "info",
+    },
+  ]);
+};

@@ -5,6 +5,7 @@ import { Connect } from "./exe/Connect";
 import { Register } from "./exe/Register";
 import { Users } from "./exe/Users";
 import { Login } from "./exe/Login";
+import { Logout } from "./exe/Logout";
 
 export type ConsoleSender = (msg: Message[]) => void;
 
@@ -21,6 +22,7 @@ export const commands: Executable[] = [
   new Users(),
   new Register(),
   new Login(),
+  new Logout(),
 ];
 
 export const searchCommand = (search: string) => {
