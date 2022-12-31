@@ -4,6 +4,7 @@ import { Help } from "./exe/Help";
 import { Connect } from "./exe/Connect";
 import { Register } from "./exe/Register";
 import { Users } from "./exe/Users";
+import { Login } from "./exe/Login";
 
 export type ConsoleSender = (msg: Message[]) => void;
 
@@ -19,6 +20,7 @@ export const commands: Executable[] = [
   new Connect(),
   new Users(),
   new Register(),
+  new Login(),
 ];
 
 export const searchCommand = (search: string) => {
