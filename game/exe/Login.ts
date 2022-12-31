@@ -3,7 +3,7 @@ import { Executable } from "./Executable";
 import { getServer } from "../config";
 import axios from "axios";
 import md5 from "md5";
-import { initSocket } from "../../socket/socket";
+import { initSocket, mySocket, name } from "../../socket/socket";
 import { io } from "socket.io-client";
 
 interface LoginRes {
@@ -31,6 +31,16 @@ export class Login extends Executable {
       append([
         {
           msg: "사용법 : login <username> <password>",
+          type: "error",
+        },
+      ]);
+      return;
+    }
+
+    if (mySocket && name) {
+      append([
+        {
+          msg: "이미 로그인 되어 있습니다. (" + name + ")",
           type: "error",
         },
       ]);

@@ -1,4 +1,11 @@
-import { GetUsers, GET_USERS, HELLO, WELCOME } from "./socket.type";
+import {
+  GetUsers,
+  GET_USERS,
+  HELLO,
+  KICK_AND_LOGIN,
+  OTHER_LOGIN,
+  WELCOME,
+} from "./socket.type";
 import { Socket } from "socket.io-client";
 import { ConsoleSender } from "../game/command";
 
@@ -27,6 +34,25 @@ export const initSocket = (
         msg: `현재 접속한 유저 목록(${usernames.length}):\n${usernames.join(
           ", "
         )}`,
+        type: "info",
+      },
+    ]);
+  });
+
+  socket.on(OTHER_LOGIN, () => {
+    append([
+      {
+        msg: "다른 클라이언트에서 로그인이 감지되어 로그아웃합니다.",
+        type: "warn",
+      },
+    ]);
+    disconnect(append);
+  });
+
+  socket.on(KICK_AND_LOGIN, () => {
+    append([
+      {
+        msg: "다른 클라이언트에서 로그인 되어 있어 강제 로그아웃 했습니다.",
         type: "info",
       },
     ]);
