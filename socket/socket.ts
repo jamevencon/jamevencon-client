@@ -34,7 +34,7 @@ export const initSocket = (
 };
 
 export const disconnect = (append: ConsoleSender) => {
-  if (!mySocket || !name) {
+  if (!name || !mySocket) {
     append([
       {
         msg: "서버와 연결되어있지 않습니다.",

@@ -23,7 +23,7 @@ export class Users extends Executable {
     if (!mySocket) {
       append([
         {
-          msg: "서버에 접속하지 않았습니다.\n참고: help connect",
+          msg: "서버에 접속하지 않았습니다.\n참고: help login",
           type: "error",
         },
       ]);
