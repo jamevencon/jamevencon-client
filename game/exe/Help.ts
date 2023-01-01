@@ -80,6 +80,34 @@ export class Help extends Executable {
           카테고리에는 ${categoryStr.join(", ")} 이 있습니다.`,
           type: "info",
         },
+        ...categoryStr.map((v) => {
+          if (v === "system") {
+            return {
+              msg: "system : 시스템과 관련된 명령어의 카테고리입니다.",
+              type: "info",
+            } as Message;
+          } else if (v === "combat") {
+            return {
+              msg: "combat : 전투와 관련된 명령어의 카테고리입니다.",
+              type: "info",
+            } as Message;
+          } else if (v === "resource") {
+            return {
+              msg: "resource : 채광, 탐사 등의 자원과 관련된 명령어의 카테고리입니디.",
+              type: "info",
+            } as Message;
+          } else if (v === "social") {
+            return {
+              msg: "social : 계정 관리, 친구 등의 명령어의 카테고리입니다.",
+              type: "info",
+            } as Message;
+          } else {
+            return {
+              msg: `${v} : 알 수 없는 카테고리입니다.`,
+              type: "error",
+            } as Message;
+          }
+        }),
       ]);
     } else {
       if (isCategory(args[0])) {

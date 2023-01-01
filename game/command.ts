@@ -18,7 +18,7 @@ export interface Message {
 export const commands: Executable[] = [
   new Help(),
   new Ping(),
-  new Connect(),
+  // new Connect(),
   new Users(),
   new Register(),
   new Login(),

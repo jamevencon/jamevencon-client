@@ -14,7 +14,7 @@ export class Register extends Executable {
       "register",
       ["가입", "회원가입"],
       [],
-      "system",
+      "social",
       "회원가입을 진행합니다. 계정 정보가 데이터베이스에 저장됩니다. 화면에 비밀번호가 노출되므로 평소에 사용하지 않는 비밀번호를 사용하기를 권장합니다.",
       "register <username> <password>"
     );

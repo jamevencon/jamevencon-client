@@ -12,7 +12,7 @@ export class Logout extends Executable {
       "logout",
       ["로그아웃"],
       [],
-      "system",
+      "social",
       "서버와 연결을 끊고 로그아웃합니다.",
       "logout"
     );

@@ -9,7 +9,7 @@ export class Users extends Executable {
       "users",
       ["유저목록", "유저들", "동접자", "접속자"],
       [],
-      "system",
+      "social",
       "접속해 있는 유저의 닉네임 목록을 살펴봅니다.",
       "users"
     );

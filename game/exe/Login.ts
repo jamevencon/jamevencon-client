@@ -16,7 +16,7 @@ export class Login extends Executable {
       "login",
       ["로그인"],
       [],
-      "system",
+      "social",
       "로그인을 진행한 후 서버와 연결을 시도합니다. 화면에 비밀번호가 노출되므로 평소에 사용하지 않는 비밀번호를 사용하기를 권장합니다.",
       "login <username> <password>"
     );
