@@ -6,6 +6,7 @@ import { Register } from "./exe/auth/Register";
 import { Users } from "./exe/auth/Users";
 import { Login } from "./exe/auth/Login";
 import { Logout } from "./exe/auth/Logout";
+import { DeleteAcc } from "./exe/auth/DeleteAcc";
 
 export type ConsoleSender = (msg: Message[]) => void;
 
@@ -23,6 +24,7 @@ export const commands: Executable[] = [
   new Register(),
   new Login(),
   new Logout(),
+  new DeleteAcc(),
 ];
 
 export const searchCommand = (search: string) => {

@@ -1,8 +1,7 @@
 import { ConsoleSender } from "../../command";
 import { Executable } from "../Executable";
-import { getServer } from "../../config";
+import { getServer, SHA256 } from "../../config";
 import axios from "axios";
-import md5 from "md5";
 import { initSocket, mySocket, name } from "../../../socket/socket";
 import { io } from "socket.io-client";
 
@@ -51,7 +50,7 @@ export class Login extends Executable {
       data: { msg },
     } = await axios.post<LoginRes>(getServer() + "/auth/login", {
       username: args[0],
-      password: md5(args[0] + args[1]),
+      password: SHA256(args[0] + args[1]),
     });
 
     if (msg === "SUCCESS") {

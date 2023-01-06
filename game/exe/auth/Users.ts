@@ -1,4 +1,4 @@
-import { mySocket } from "../../../socket/socket";
+import { isLogin, mySocket } from "../../../socket/socket";
 import { GET_USERS } from "../../../socket/socket.type";
 import { ConsoleSender } from "../../command";
 import { Executable } from "../Executable";
@@ -20,7 +20,7 @@ export class Users extends Executable {
     option: Map<string, string>,
     args: string[]
   ): void {
-    if (!mySocket) {
+    if (!isLogin()) {
       append([
         {
           msg: "서버에 접속하지 않았습니다.\n참고: help login",

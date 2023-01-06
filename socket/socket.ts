@@ -12,6 +12,8 @@ import { ConsoleSender } from "../game/command";
 export let mySocket: Socket;
 export let name: string;
 
+export const isLogin = (): boolean => !!mySocket && !!name;
+
 export const initSocket = (
   socket: Socket,
   username: string,
