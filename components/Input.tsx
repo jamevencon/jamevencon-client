@@ -1,5 +1,6 @@
 import { NextPage } from "next";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { commands } from "../game/command";
 
 interface Props {
   input: string;
@@ -25,6 +26,8 @@ const Input: NextPage<Props> = ({
       setInput(input.trimEnd() + "\n");
     }
   }, [input]);
+  const [tabIndex, setTab] = useState(0);
+  const [lastInput, setLast] = useState("");
 
   return (
     <>
@@ -32,12 +35,40 @@ const Input: NextPage<Props> = ({
         placeholder="Start your journey"
         value={input}
         onChange={(e) => {
+          setLast(e.target.value);
           setInput(e.target.value);
         }}
         onKeyDown={(e) => {
           // This will allow for non-english word
           // (especially composition letters) to be typed properly
           if (e.nativeEvent.isComposing) return;
+
+          if (e.key === "Tab") {
+            e.preventDefault();
+
+            if (input.split(" ").length === 1) {
+              // Search commands
+              const cmds = [
+                ...commands.map((v) => v.name),
+                ...commands
+                  .map((v) => [...v.aliases])
+                  .reduce((a, b) => [...a, ...b]),
+              ].filter((v) => v.startsWith(lastInput.trim()));
+
+              if (cmds.length === 0) return;
+
+              if (lastInput === input) {
+                // Newly typed
+                setTab(0);
+                setInput(cmds[0]);
+              } else {
+                setInput(cmds[tabIndex]);
+              }
+
+              if (cmds.length - 1 > tabIndex) setTab(tabIndex + 1);
+              else setTab(0);
+            }
+          }
 
           if (e.key === "Enter") {
             if (e.shiftKey) {
