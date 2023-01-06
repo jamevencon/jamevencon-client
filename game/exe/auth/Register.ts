@@ -1,6 +1,6 @@
-import { ConsoleSender } from "../command";
-import { Executable } from "./Executable";
-import { getServer } from "../config";
+import { ConsoleSender } from "../../command";
+import { Executable } from "../Executable";
+import { getServer } from "../../config";
 import axios from "axios";
 import md5 from "md5";
 

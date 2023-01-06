@@ -1,9 +1,9 @@
-import { ConsoleSender } from "../command";
-import { Executable } from "./Executable";
-import { getServer } from "../config";
+import { ConsoleSender } from "../../command";
+import { Executable } from "../Executable";
+import { getServer } from "../../config";
 import axios from "axios";
 import md5 from "md5";
-import { disconnect, initSocket } from "../../socket/socket";
+import { disconnect, initSocket } from "../../../socket/socket";
 import { io } from "socket.io-client";
 
 export class Logout extends Executable {

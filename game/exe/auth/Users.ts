@@ -1,7 +1,7 @@
-import { mySocket } from "../../socket/socket";
-import { GET_USERS } from "../../socket/socket.type";
-import { ConsoleSender } from "../command";
-import { Executable } from "./Executable";
+import { mySocket } from "../../../socket/socket";
+import { GET_USERS } from "../../../socket/socket.type";
+import { ConsoleSender } from "../../command";
+import { Executable } from "../Executable";
 
 export class Users extends Executable {
   constructor() {
