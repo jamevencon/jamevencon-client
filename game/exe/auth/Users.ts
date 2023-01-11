@@ -1,7 +1,7 @@
-import { mySocket } from "../../socket/socket";
-import { GET_USERS } from "../../socket/socket.type";
-import { ConsoleSender } from "../command";
-import { Executable } from "./Executable";
+import { isLogin, mySocket } from "../../../socket/socket";
+import { GET_USERS } from "../../../socket/socket.type";
+import { ConsoleSender } from "../../command";
+import { Executable } from "../Executable";
 
 export class Users extends Executable {
   constructor() {
@@ -9,7 +9,7 @@ export class Users extends Executable {
       "users",
       ["유저목록", "유저들", "동접자", "접속자"],
       [],
-      "system",
+      "social",
       "접속해 있는 유저의 닉네임 목록을 살펴봅니다.",
       "users"
     );
@@ -20,10 +20,10 @@ export class Users extends Executable {
     option: Map<string, string>,
     args: string[]
   ): void {
-    if (!mySocket) {
+    if (!isLogin()) {
       append([
         {
-          msg: "서버에 접속하지 않았습니다.\n참고: help connect",
+          msg: "서버에 접속하지 않았습니다.\n참고: help login",
           type: "error",
         },
       ]);
