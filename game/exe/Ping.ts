@@ -1,5 +1,11 @@
+import axios, { AxiosError } from "axios";
 import { ConsoleSender } from "../command";
+import { getServer } from "../config";
 import { Executable } from "./Executable";
+
+interface PingRes {
+  status: "online" | "offline";
+}
 
 export class Ping extends Executable {
   constructor() {
@@ -18,25 +24,22 @@ export class Ping extends Executable {
     option: Map<string, string>,
     args: string[]
   ): void {
-    append([
-      {
-        msg: "핑 계산중...",
-        type: "italic",
-      },
-      {
-        msg: "그만좀 지워라",
-        type: "italic",
-      },
-    ]);
-    append([
-      {
-        msg: "핑 계산중...",
-        type: "italic",
-      },
-    ]);
+    append([{ msg: "핑을 측정하는 중...", type: "italic" }]);
 
-    // Why Disappear!!!!!
-    append([{ msg: "Pong~", type: "info" }]);
-    append([{ msg: "Pong~", type: "info" }]);
+    const start = Date.now();
+    axios
+      .get<PingRes>(`${getServer()}/ping`)
+      .then((res) => {
+        const end = Date.now();
+        append([{ msg: `${end - start}ms`, type: "success" }]);
+      })
+      .catch((err: AxiosError) => {
+        append([
+          {
+            msg: `에러가 발생했습니다.\nstatus: ${err.code}\n${err.toString()}`,
+            type: "error",
+          },
+        ]);
+      });
   }
 }
